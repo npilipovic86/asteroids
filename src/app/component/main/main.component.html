@@ -1,0 +1,124 @@
+<div class="container">
+  <form class="form" (ngSubmit)="getAsteroids()">
+    <div class="md-form input">
+      <label for="form1">Start date</label>
+      <input
+        placeholder="eg. 2018-03-12"
+        type="text"
+        id="form1"
+        class="form-control"
+        [(ngModel)]="startDate"
+        [ngModelOptions]="{ standalone: true }"
+      />
+    </div>
+
+    <div class="md-form input">
+      <label for="form2">End date</label>
+      <input
+        placeholder="eg. 2018-03-19"
+        type="text"
+        id="form2"
+        class="form-control"
+        [(ngModel)]="endDate"
+        [ngModelOptions]="{ standalone: true }"
+      />
+    </div>
+
+    <div class="button">
+      <button
+        [disabled]="asteroids.length > 0"
+        type="submit"
+        class="btn btn-success"
+      >
+        Show asteroids
+      </button>
+    </div>
+  </form>
+  <div class="table-wrapper" *ngIf="asteroids.length > 0">
+    <table class="table table-bordered table-striped ">
+      <thead>
+        <tr>
+          <td>
+            <a (click)="sortTable(0)" class="tooltip1">
+              Name
+            </a>
+          </td>
+          <td>
+            <a (click)="sortTable(4)">
+              Close approach date
+            </a>
+          </td>
+          <td>
+            <a (click)="sortTable(1)">
+              Speed (km/h)
+            </a>
+          </td>
+          <td>
+            <a (click)="sortTable(2)">
+              Estimated diameter min
+            </a>
+          </td>
+          <td>
+            <a (click)="sortTable(3)">
+              Estimated diameter max
+            </a>
+          </td>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let asteroid of asteroidsPage">
+          <td>{{ asteroid.name }}</td>
+          <td>{{ asteroid.close_approach_date }}</td>
+          <td>{{ asteroid.kilometers_per_hour }}</td>
+          <td>{{ asteroid.estimated_diameter_min }}</td>
+          <td>{{ asteroid.estimated_diameter_max }}</td>
+        </tr>
+      </tbody>
+      <div class="paging" *ngIf="asteroids.length > 10">
+        <a (click)="prevPage()"> prev </a>
+        <a (click)="nextPage()"> next </a>
+        page : {{ page }}
+      </div>
+    </table>
+  </div>
+  <div  *ngIf="asteroids.length > 0">
+    <div class="wraper ">
+      <input
+        class="inputFind form-control"
+        placeholder="Find by asteroid name"
+        [formControl]="inputCtrl"
+      />
+      <div
+        class="result"
+        *ngFor="let item of (filteredItems | async)"
+        (click)="addSelected(item)"
+        data-toggle="tooltip"
+        data-placement="top"
+        title="Add to list"
+      >
+        <span> {{ item.name }}</span>
+      </div>
+    </div>
+
+    <div class="selected">
+      <div class="row" *ngFor="let item of selectedAsteroids">
+        <span>{{ item.name }}</span>
+        <img
+          class="delete"
+          src="assets/trash1.png"
+          (click)="delete(item)"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Delete"
+        />
+      </div>
+    </div>
+
+    <div class="buttonChart" >
+      <button [disabled]="this.selectedAsteroids.length<1" type="submit"  class=" btn btn-success" (click)="getChartData()">
+        Number of Passages by Earth
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+@mixin stagger-anim-delay($i, $initial-delay, $stagger-delay) {
+  @while $i > 0 {
+    &:nth-of-type(#{$i}) {
+      animation-delay: $initial-delay + $stagger-delay * $i;
+    }
+    $i: $i - 1;
+  }
+}
+.charts {
+  width: 100%;
+  position: absolute;
+  left: 0;
+}
+button {
+  margin-left: 15px;
+}
+
+.chart {
+  margin: 30px;
+}
+
+.chart__title {
+  width: 160px;
+  margin-top: 5px;
+  display: block;
+  font-weight: bold;
+  opacity: 0;
+  animation: 1s anim-lightspeed-in ease forwards;
+
+  .chart--dev & {
+  }
+  .chart--prod & {
+    animation-delay: 3.3s;
+  }
+  .chart--design & {
+    animation-delay: 4.5s;
+  }
+}
+
+.chart--horiz {
+  overflow: hidden;
+  display: flex;
+}
+
+.chart__bar {
+  text-align: center;
+  $border-rad: 4px;
+  height: 30px;
+  margin-bottom: 10px;
+  border-top-right-radius: $border-rad;
+  border-bottom-right-radius: $border-rad;
+  opacity: 0;
+  animation: 1s anim-lightspeed-in ease forwards;
+  .chart--dev & {
+    @include stagger-anim-delay(11, 0.5s, 0.2s);
+  }
+}
+
+.chart__label {
+  padding-left: 10px;
+  line-height: 30px;
+  color: black;
+}
+
+//Keyframes
+@keyframes anim-lightspeed-in {
+  0% {
+    transform: translateX(-200%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.color-green {
+  background-color: green;
+}
+.color-red {
+  background-color: red;
+}
+.color-orange {
+  background-color: orange;
+}
+.color-yellow {
+  background-color: yellow;
+}

@@ -1,0 +1,78 @@
+.paging a {
+  cursor: pointer;
+}
+
+.form {
+  text-align: left;
+  width: 35%;
+}
+
+label {
+  margin: 5px;
+  width: 90px;
+}
+.wraper {
+  width: 400px;
+  margin-top: 5px;
+  display: inline-block;
+  text-align: center;
+}
+.buttonChart {
+  clear: both;
+  float: right;
+  margin: 5px;
+  margin-right: 0px;
+}
+.button {
+  margin: 5px;
+  margin-right: -5px;
+  float: right;
+}
+td a {
+  cursor: pointer;
+}
+
+.input {
+  width: 100%;
+  margin: 5px;
+  display: inline-flex;
+}
+
+.result {
+  margin: 5px;
+  cursor: pointer;
+  border: 1px solid darkgray;
+}
+.result:nth-child(odd) {
+  background-color: darkgrey;
+}
+.table-wrapper {
+  margin-top: 20px;
+}
+
+table {
+  margin: 0 auto;
+}
+.table-striped > tbody > tr:nth-of-type(even) {
+  background-color: #fff;
+}
+
+.selected {
+  border: 1px solid darkgray;
+  width: 300px;
+  min-height: 300px;
+  text-align: left;
+  float: right;
+  display: inline;
+  margin: 5px;
+  margin-right: 0px;
+}
+.row {
+  margin: 5px 15px 5px 15px;
+}
+.delete {
+  float: right;
+  display: inline-flex;
+  height: 25px;
+  cursor: pointer;
+}

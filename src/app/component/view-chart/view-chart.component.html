@@ -1,0 +1,19 @@
+<div>
+<button [routerLink]="['/main']" routerLinkActive="router-link-active"  class="btn btn-info">Back</button>
+<br>
+<div class="charts">
+  <div class="chart chart--dev">
+    <div class="chart--horiz " *ngFor="let item of asteroidList">
+      <div class=" chart__title ">
+          {{ item.name }}
+      </div>
+      <div class="chart__bar " [style.width.%]="[item.counter]"  [ngClass]="cssClass(item)">
+        <span class="chart__label counter">
+          {{ item.counter }}
+        </span>
+      </div>
+     
+    </div>
+  </div>
+
+</div>
