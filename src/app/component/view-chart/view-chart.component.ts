@@ -7,7 +7,7 @@ import { AsteroidService } from 'src/app/service/asteroid.service';
   styleUrls: ['./view-chart.component.scss']
 })
 export class ViewChartComponent implements OnInit {
-  private asteroidList: any[];
+   asteroidList: any[];
 
   constructor(private _service: AsteroidService) {
     this.asteroidList = this._service.asteroidList;

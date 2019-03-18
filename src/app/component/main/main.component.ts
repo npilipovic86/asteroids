@@ -12,11 +12,11 @@ import { AsteroidService } from '../../service/asteroid.service';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit, OnDestroy {
-  private startDate;
-  private endDate;
+   startDate;
+   endDate;
   private allAsteroids: any;
   private matchAsteroids: any[] = [];
-  private asteroids: any[] = [];
+   asteroids: any[] = [];
   private sortRevers = true;
   private selectedAsteroids: Asteroid[] = [];
 
