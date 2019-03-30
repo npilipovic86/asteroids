@@ -86,12 +86,12 @@ export class MainComponent implements OnInit, OnDestroy {
     this.filteredItems = this.inputCtrl.valueChanges.pipe(
       startWith(''),
       delay(1000),
-      map(item => this.autocompleteFilter(item))
+      map(item => this.autocompleteFilter(item, this.asteroids))
     );
   }
-  autocompleteFilter(name: string) {
+  autocompleteFilter(name: string, listForFilter: any) {
     if (name.length >= 1) {
-      return this.asteroids.filter(
+      return listForFilter.filter(
         item => item.name.toLowerCase().indexOf(name.toLowerCase()) === 0
       );
     } else {
@@ -121,7 +121,7 @@ export class MainComponent implements OnInit, OnDestroy {
     if (this.page > this.numPages()) {
       this.page = this.numPages();
     }
-    this.asteroidsPage = this.asteroids.slice((this.page - 1 ) * 10, (this.page  ) * 10);
+    this.asteroidsPage = this.asteroids.slice((this.page - 1 ) * 10, this.page  * 10);
   }
   getChartData() {
     const observables: Array<Observable<any>> = this.selectedAsteroids.map(
@@ -144,7 +144,17 @@ export class MainComponent implements OnInit, OnDestroy {
         asteroid.counter = counter;
       });
       console.log('list:', res);
-      this._service.asteroidList = [...res];
+      const asteroids = res.map( o => {
+            console.log( o);
+            return {
+              name: o.name,
+              counter: o.counter
+            };
+      });
+      console.log('asteroids', asteroids);
+
+      this._service.asteroidList = [...asteroids];
+      // this._service.asteroidList = [...res];
       this.router.navigate(['/charts']);
     });
   }
@@ -159,20 +169,19 @@ export class MainComponent implements OnInit, OnDestroy {
         }
       });
     });
-    this.matchAsteroids.forEach(e => {
-      const asteroid = {
+
+    this.asteroids = this.matchAsteroids.map(e => {
+      console.log('eeeee' , e);
+      return {
         self: e.links.self,
         close_approach_date: e.close_approach_data[0].close_approach_date,
         name: e.name,
-        kilometers_per_hour:
-          e.close_approach_data[0].relative_velocity.kilometers_per_hour,
-        estimated_diameter_min:
-          e.estimated_diameter.meters.estimated_diameter_min,
-        estimated_diameter_max:
-          e.estimated_diameter.meters.estimated_diameter_max
+        kilometers_per_hour:  e.close_approach_data[0].relative_velocity.kilometers_per_hour,
+        estimated_diameter_min:   e.estimated_diameter.meters.estimated_diameter_min,
+        estimated_diameter_max:  e.estimated_diameter.meters.estimated_diameter_max
       };
-      this.asteroids.push(asteroid);
     });
+    console.log( 'this.asteroids', this.asteroids);
     if (this.asteroids.length > 10) {
          this.asteroidsPage = this.asteroids.slice(0, 10);
     } else {
@@ -181,12 +190,10 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   getData(startDate: string, endDate: string) {
-    return (this.subscription2 = this._service
-      .getData(startDate, endDate)
-      .subscribe((res: any) => {
+    return this.subscription2 = this._service .getData(startDate, endDate).subscribe((res: any) => {
         this.allAsteroids = Object.assign({}, res);
         this.filterAsteroids();
-      }));
+      });
   }
   getAsteroids() {
     if (this.checkDate(this.startDate, this.endDate)) {
@@ -205,6 +212,10 @@ export class MainComponent implements OnInit, OnDestroy {
     const day = parseInt(matchArray[3].replace(/(^|-)0+/g, '$1'), 10);
     const year = parseInt(matchArray[1], 10);
 
+    if (year > 2300 || year < 1900) {
+      alert('Year must be between 1900 and  2300');
+      return false;
+    }
     if (month < 1 || month > 12) {
       // check month range
       alert('Month must be between 1 and 12');
@@ -235,17 +246,16 @@ export class MainComponent implements OnInit, OnDestroy {
   checkDate(startDate: string, endDate: string) {
     if ( startDate &&  endDate &&  this.isValidDate(startDate) &&
       this.isValidDate(endDate)  ) {
-
-      const date1 = new Date(startDate);
-      const date2 = new Date(endDate);
-      const timeDiff = Math.abs(date2.getTime() - date1.getTime());
-      const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-      if (diffDays > 7) {
-        alert('difference  between start and end date must be 7 days or less');
-        return false;
-      } else {
-        return true;
-      }
+        const date1 = new Date(startDate);
+        const date2 = new Date(endDate);
+        const timeDiff = Math.abs(date2.getTime() - date1.getTime());
+        const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        if (diffDays > 7) {
+          alert('difference  between start and end date must be 7 days or less');
+          return false;
+        } else {
+          return true;
+        }
     } else {
       return false;
     }

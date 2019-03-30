@@ -18,10 +18,11 @@ export class ViewChartComponent implements OnInit {
   }
 
   loadData() {
+    console.log(' this.asteroidList', this.asteroidList);
     if (this.asteroidList.length > 0) {
       localStorage.setItem('asteroids', JSON.stringify(this.asteroidList));
-    }
-    if (localStorage.getItem('asteroids')) {
+    }  else  {
+      console.log('elseeeee');
       this.asteroidList = JSON.parse(localStorage.getItem('asteroids'));
     }
   }
