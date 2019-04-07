@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ng build --aot --prod"
+    "deploy": "ng b --prod --base-href https://npilipovic86.github.io/asteroids/ && npx ngh --dir=dist/asteroids"
   },
   "private": true,
   "dependencies": {
